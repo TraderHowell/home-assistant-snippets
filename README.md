@@ -5,6 +5,6 @@ A collection of snippets for Home Assistant.
 > Implement at your own risk. If your house burns down, remember it was you who hit `CTRL+C` + `CTRL+V`.
 
 # Setup
-1. Copy the contents of the desired `snippet.yaml` into your Home Assistant instance's `configuration.yaml`.
+Copy the contents of the desired `snippet.yaml` into your Home Assistant instance's `configuration.yaml`.
 
 A readme with more details for each snippet can be found in its respective folder.
