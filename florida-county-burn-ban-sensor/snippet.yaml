@@ -1,0 +1,35 @@
+# Florida County Burn Ban Sensor
+# Use at your own peril. May break at any time and not be accurate.
+# Replace <YOUR_COUNTY_NAME_HERE> with the name of your county EXACTLY as it appears on https://ffsfm.maps.arcgis.com/apps/dashboards/1f6572c92f8d41ec860f461ea433819b
+# Perhaps don't set your scan_interval lower than 3600 so the data remains publicly queryable.
+
+sensor:
+  # Get the burn ban status of the county
+  - platform: rest
+    name: "Burn Ban Status"
+    resource: "https://services3.arcgis.com/XYg2eF8UuxZVuVmF/ArcGIS/rest/services/Burn_Ban_Public_View_v2_4118cfe50dba49efa3d6fa7326d5a87f/FeatureServer/0/query?where=NAME='<YOUR_COUNTY_NAME_HERE>'&outFields=Burn_Ban&f=json"
+    value_template: "{{ value_json.features[0].attributes.Burn_Ban }}"
+    scan_interval: 3600
+    hidden: true
+
+  # Get the date the whole page was last updated as a sanity check
+  - platform: rest
+    name: "Burn Ban Date Updated"
+    resource: "https://services3.arcgis.com/XYg2eF8UuxZVuVmF/ArcGIS/rest/services/Burn_Ban_Public_View_v2_4118cfe50dba49efa3d6fa7326d5a87f/FeatureServer/layers?f=json"
+    value_template: "{{ (value_json.layers[0].editingInfo.lastEditDate / 1000) | timestamp_custom('%B %d, %Y at %H:%M') }}"
+    scan_interval: 3600
+    hidden: true
+
+# Put it all together
+template:
+  - sensor:
+      - name: "County Burn Ban"
+        state: "{{ states('sensor.burn_ban_status') }}"
+        attributes:
+          date_updated: "{{ states('sensor.burn_ban_date_updated') }}"
+        icon: >
+          {% if is_state('sensor.county_burn_ban', 'No Burn Ban') %}
+            mdi:fire
+          {% else %}
+            mdi:fire-off
+          {% endif %}
