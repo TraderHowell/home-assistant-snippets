@@ -1,7 +1,7 @@
 # Florida County Burn Ban Sensor
-# Use at your own peril. May break at any time and not be accurate.
-# Replace <YOUR_COUNTY_NAME_HERE> with the name of your county EXACTLY as it appears on https://ffsfm.maps.arcgis.com/apps/dashboards/1f6572c92f8d41ec860f461ea433819b
-# Perhaps don't set your scan_interval lower than 3600 so the data remains publicly queryable.
+# Use at your own risk. Always verify with an official source before burning.
+# Replace <YOUR_COUNTY_NAME_HERE> with the name of your county exactly as it appears on the Burn Ban Public Dashboard.
+# Perhaps keep scan_interval no less than 3600 to avoid being a nusiance.
 
 sensor:
   # Get the burn ban status of the county
